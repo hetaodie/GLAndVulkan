@@ -10,6 +10,10 @@
 
 #include <SOIL/SOIL.h>
 
+#include<glm/glm.hpp>
+#include<glm/gtc/matrix_transform.hpp>
+#include<glm/gtc/type_ptr.hpp>
+
 GLuint VBO,VAO,EBO, texture,texture2;
 
 
@@ -199,16 +203,14 @@ int main() {
 
 		//glUseProgram(program);
 		shader->Use();
-		//GLint location = glGetUniformLocation(program, "ourColor");
-		//if (location == -1)
-		//{
-		//	exit(0);
-		//}
+		
+		// Create transformations
+		glm::mat4 transform;
+		//transform = glm::translate(transform, glm::vec3(0.5f, -0.5f, 0.0f));
+		transform = glm::rotate(transform, (GLfloat)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
 
-		//GLfloat timeValue = glfwGetTime();
-		//GLfloat greenValue = (sin(timeValue) / 2) + 0.5;
-
-		//glUniform4f(location, 0.0, greenValue, 0.0, 1.0);
+		GLuint transformLoc = glGetUniformLocation(shader->Program, "transform");
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
 
 		glBindVertexArray(VAO);
 		//glDrawArrays(GL_TRIANGLES, 0, 3);
