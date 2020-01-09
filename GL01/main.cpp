@@ -17,12 +17,61 @@
 GLuint VBO,VAO,EBO, texture,texture2;
 
 
-GLfloat vertices[] = {
-	//     ---- 位置 ----       ---- 颜色 ----     - 纹理坐标 -
-		 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // 右上
-		 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // 右下
-		-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // 左下
-		-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // 左上
+float vertices[] = {
+	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+	 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+	-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+};
+
+glm::vec3 cubePositions[] = {
+  glm::vec3(0.0f,  0.0f,  0.0f),
+  glm::vec3(2.0f,  5.0f, -15.0f),
+  glm::vec3(-1.5f, -2.2f, -2.5f),
+  glm::vec3(-3.8f, -2.0f, -12.3f),
+  glm::vec3(2.4f, -0.4f, -3.5f),
+  glm::vec3(-1.7f,  3.0f, -7.5f),
+  glm::vec3(1.3f, -2.0f, -2.5f),
+  glm::vec3(1.5f,  2.0f, -2.5f),
+  glm::vec3(1.5f,  0.2f, -1.5f),
+  glm::vec3(-1.3f,  1.0f, -1.5f)
 };
 
 GLuint indices[] = { // 注意索引从0开始! 
@@ -97,14 +146,11 @@ GLuint createVAO() {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)0);
 	glEnableVertexAttribArray(0);
 
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(1);
-
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(2);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0); // Note that this is allowed, the call to glVertexAttribPointer registered VBO as the currently bound vertex buffer object so afterwards we can safely unbind
 
@@ -123,6 +169,72 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 	}
 
+}
+
+void draw(int x, int y, int width, int height,Shader *shader, float *color) {
+
+	glViewport(x, y, width , height );
+	glEnable(GL_DEPTH_TEST);
+	//glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glClearColor(color[0], color[1], color[2], color[3]);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glUniform1i(glGetUniformLocation(shader->Program, "ourTexture1"), 0);
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, texture2);
+	glUniform1i(glGetUniformLocation(shader->Program, "ourTexture2"), 1);
+
+
+	//glUseProgram(program);
+	shader->Use();
+
+	//glm::mat4 model;
+	////model = glm::rotate(model, -20.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+	//model = glm::rotate(model, (GLfloat)glfwGetTime(), glm::vec3(0.5f, 1.0f, 0.0f));
+	//GLuint transformLoc = glGetUniformLocation(shader->Program, "model");
+	//glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(model));
+
+	/*glm::mat4 view;
+	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));*/
+
+	GLfloat camX = 0.0f;
+	GLfloat camZ = 3.0f;
+	//GLfloat radius = 10.0f;
+	//GLfloat camX = sin(glfwGetTime()) * radius;
+	//GLfloat camZ = cos(glfwGetTime()) * radius;
+	glm::mat4 view;
+	view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+
+	GLuint viewLoc = glGetUniformLocation(shader->Program, "view");
+	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+
+	glm::mat4 projection;
+	projection = glm::perspective(45.0f, width / height * 1.0f, 0.1f, 100.0f);
+	GLuint projectionLoc = glGetUniformLocation(shader->Program, "projection");
+	glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+	glBindVertexArray(VAO);
+
+	for (GLuint i = 0; i < 10; i++)
+	{
+		glm::mat4 model;
+		model = glm::translate(model, cubePositions[i]);
+		GLfloat angle = i * 1.0;
+
+		model = glm::rotate(model, angle, glm::vec3(1.0f, 0.3f, 0.5f));
+		GLuint modelLoc = glGetUniformLocation(shader->Program, "model");
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+	}
+	//glDrawArrays(GL_TRIANGLES, 0, 36);
+
+	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+	glDisable(GL_DEPTH_TEST);
 }
 
 int main() {
@@ -171,7 +283,7 @@ int main() {
 
 	int width, height;
 	glfwGetFramebufferSize(window, &width, &height);//从glfw中获取宽高
-	glViewport(0, 0, width, height);
+	
 
 
 	//createProgram();
@@ -184,38 +296,14 @@ int main() {
 
 
 	createVAO();
-
+	int num = 0;
 	while(!glfwWindowShouldClose(window))
 	{
-		glfwPollEvents();//检查有没有触发事件
-
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
-
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, texture);
-		glUniform1i(glGetUniformLocation(shader->Program, "ourTexture1"), 0);
-
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, texture2);
-		glUniform1i(glGetUniformLocation(shader->Program, "ourTexture2"), 1);
-
-
-		//glUseProgram(program);
-		shader->Use();
 		
-		// Create transformations
-		glm::mat4 transform;
-		//transform = glm::translate(transform, glm::vec3(0.5f, -0.5f, 0.0f));
-		transform = glm::rotate(transform, (GLfloat)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+		glfwPollEvents();//检查有没有触发事件
+		float color[4] = { 0.0,1.0,0.0,1.0 };
+		draw(0, 0, width, height, shader, color);
 
-		GLuint transformLoc = glGetUniformLocation(shader->Program, "transform");
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
-
-		glBindVertexArray(VAO);
-		//glDrawArrays(GL_TRIANGLES, 0, 3);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
 
 		glfwSwapBuffers(window);//交换颜色缓冲
 	}
@@ -223,4 +311,6 @@ int main() {
 
 	return 0;
 }
+
+
 
