@@ -14,6 +14,7 @@
 #include<glm/gtc/matrix_transform.hpp>
 #include<glm/gtc/type_ptr.hpp>
 
+#include "Camera.h"
 GLuint VBO,VAO,EBO, texture,texture2;
 
 
@@ -78,6 +79,9 @@ GLuint indices[] = { // 注意索引从0开始!
 	0, 1, 3, // 第一个三角形
 	1, 2, 3  // 第二个三角形
 };
+
+Camera  camera(glm::vec3(0.0f, 0.0f, 3.0f));
+
 
 void createTexture() {
 
@@ -221,6 +225,25 @@ void draw(int x, int y, int width, int height,Shader *shader, float *color) {
 	glUniform1f(glGetUniformLocation(shader->Program, "linearLight.constant"), 1.0f);
 	glUniform1f(glGetUniformLocation(shader->Program, "linearLight.linear"), 0.09);
 	glUniform1f(glGetUniformLocation(shader->Program, "linearLight.quadratic"), 0.032);
+
+
+	GLint spotlightPosLoc = glGetUniformLocation(shader->Program, "spotLight.position");
+	GLint spotlightSpotdirLoc = glGetUniformLocation(shader->Program, "spotLight.direction");
+	GLint spotlightSpotCutOffLoc = glGetUniformLocation(shader->Program, "spotLight.cutOff");
+	GLint spotviewPosLoc = glGetUniformLocation(shader->Program, "viewPos");
+	glUniform3f(spotlightPosLoc, camera.Position.x, camera.Position.y, camera.Position.z);
+	glUniform3f(spotlightSpotdirLoc, camera.Front.x, camera.Front.y, camera.Front.z);
+	glUniform1f(spotlightSpotCutOffLoc, glm::cos(glm::radians(12.5f)));
+	glUniform3f(spotviewPosLoc, camera.Position.x, camera.Position.y, camera.Position.z);
+	// Set lights properties
+	glUniform3f(glGetUniformLocation(shader->Program, "spotLight.ambient"), 0.1f, 0.1f, 0.1f);
+	// We set the diffuse intensity a bit higher; note that the right lighting conditions differ with each lighting method and environment.
+	// Each environment and lighting type requires some tweaking of these variables to get the best out of your environment.
+	glUniform3f(glGetUniformLocation(shader->Program, "spotLight.diffuse"), 0.8f, 0.8f, 0.8f);
+	glUniform3f(glGetUniformLocation(shader->Program, "spotLight.specular"), 1.0f, 1.0f, 1.0f);
+	glUniform1f(glGetUniformLocation(shader->Program, "spotLight.constant"), 1.0f);
+	glUniform1f(glGetUniformLocation(shader->Program, "spotLight.linear"), 0.09);
+	glUniform1f(glGetUniformLocation(shader->Program, "spotLight.quadratic"), 0.032);
 
 	GLfloat camX = 0.0f;
 	GLfloat camZ = 3.0f;

@@ -14,6 +14,20 @@ struct LinearLight {
     vec3 specular;
 };
 
+struct SpotLight {
+    vec3 position;
+    float constant;
+    float linear;
+    float quadratic;
+
+    vec3 direction;
+    float cutOff;
+
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+};
+
 struct Material {
     sampler2D diffuse;
     sampler2D specular;
@@ -22,6 +36,8 @@ struct Material {
 
 uniform Material material;
 uniform LinearLight linearLight;
+uniform SpotLight spotLight;
+
 uniform vec3 lightColor;
 uniform vec3 lightPos;
 uniform vec3 viewPos;
@@ -32,25 +48,33 @@ out vec4 color;
 
 void main()
 {
-    vec3 ambient = linearLight.ambient * vec3(texture(material.diffuse,TexCoord)) ;
-   
-    vec3 normal = normalize(Normal);
-    vec3 lightDir = normalize(linearLight.position - FragPos);
-    float diff = max(dot(normal, lightDir),0);
-    vec3 diffuse = diff * linearLight.diffuse * vec3(texture(material.diffuse,TexCoord));
+    vec3 ambient = spotLight.ambient * vec3(texture(material.diffuse,TexCoord)) ;
+    vec3 lightDir = normalize(spotLight.position - FragPos);
 
-    float specularStrength = 1.0;
-    vec3 viewDir = normalize(viewPos - FragPos);
-    vec3 reflectDir = reflect(-lightDir, normal);
-    float spec = pow(max(dot(viewDir, reflectDir), 0),32.0);
-    vec3 specular = spec * specularStrength * linearLight.specular * vec3(texture(material.specular,TexCoord));
+    float thera = dot(lightDir, normalize(-spotLight.direction));
+
+    if(thera > spotLight.cutOff) {
+        
+        vec3 normal = normalize(Normal);
+        float diff = max(dot(normal, lightDir),0);
+        vec3 diffuse = diff * spotLight.diffuse * vec3(texture(material.diffuse,TexCoord));
+
+        float specularStrength = 1.0;
+        vec3 viewDir = normalize(viewPos - FragPos);
+        vec3 reflectDir = reflect(-lightDir, normal);
+        float spec = pow(max(dot(viewDir, reflectDir), 0),32.0);
+        vec3 specular = spec * specularStrength * spotLight.specular * vec3(texture(material.specular,TexCoord));
 
 
-    //attenuation
-    float distance = length(linearLight.position - FragPos);
+        //attenuation
+        float distance = length(spotLight.position - FragPos);
 
-    float attenuation = 1.0 / (linearLight.constant + linearLight.linear * distance + linearLight.quadratic * (distance * distance));
+        float attenuation = 1.0 / (spotLight.constant + spotLight.linear * distance + spotLight.quadratic * (distance * distance));
 
-    vec3 result = (ambient + diffuse + specular) * attenuation ;
-    color = vec4(result, 1.0);
+        vec3 result = ambient + ( diffuse + specular) * attenuation ;
+        color = vec4(result, 1.0);
+    } else {
+        color = vec4(ambient,1.0);
+    }
+
 }

@@ -1,5 +1,7 @@
 ﻿  main.cpp
-D:\opengl\GLAndVulkan\GL01\main.cpp(222,79): warning C4305: “参数”: 从“double”到“GLfloat”截断
-D:\opengl\GLAndVulkan\GL01\main.cpp(223,83): warning C4305: “参数”: 从“double”到“GLfloat”截断
-D:\opengl\GLAndVulkan\GL01\main.cpp(250,17): warning C4244: “初始化”: 从“double”转换到“GLfloat”，可能丢失数据
+D:\opengl\GLAndVulkan\GL01\main.cpp(226,79): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\opengl\GLAndVulkan\GL01\main.cpp(227,83): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\opengl\GLAndVulkan\GL01\main.cpp(245,77): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\opengl\GLAndVulkan\GL01\main.cpp(246,81): warning C4305: “参数”: 从“double”到“GLfloat”截断
+D:\opengl\GLAndVulkan\GL01\main.cpp(273,17): warning C4244: “初始化”: 从“double”转换到“GLfloat”，可能丢失数据
   GL01.vcxproj -> D:\opengl\GLAndVulkan\GL01\Debug\GL01.exe
