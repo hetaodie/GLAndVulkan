@@ -207,16 +207,20 @@ void draw(int x, int y, int width, int height,Shader *shader, float *color) {
 	//glUniform3f(lightColorLoc, 1.0, 1.0, 1.0);
 
 	glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
-	GLuint lightPosLoc = glGetUniformLocation(shader->Program, "light.position");
+	GLuint lightPosLoc = glGetUniformLocation(shader->Program, "linearLight.position");
 	glUniform3f(lightPosLoc, 0.0f, 0.0f, 2.0f);
 
-	GLint lightAmbientLoc = glGetUniformLocation(shader->Program, "light.ambient");
-	GLint lightDiffuseLoc = glGetUniformLocation(shader->Program, "light.diffuse");
-	GLint lightSpecularLoc = glGetUniformLocation(shader->Program, "light.specular");
+	GLint lightAmbientLoc = glGetUniformLocation(shader->Program, "linearLight.ambient");
+	GLint lightDiffuseLoc = glGetUniformLocation(shader->Program, "linearLight.diffuse");
+	GLint lightSpecularLoc = glGetUniformLocation(shader->Program, "linearLight.specular");
 
 	glUniform3f(lightAmbientLoc, 0.2f, 0.2f, 0.2f);
 	glUniform3f(lightDiffuseLoc, 0.5f, 0.5f, 0.5f);// 让我们把这个光调暗一点，这样会看起来更自然
 	glUniform3f(lightSpecularLoc, 1.0f, 1.0f, 1.0f);
+
+	glUniform1f(glGetUniformLocation(shader->Program, "linearLight.constant"), 1.0f);
+	glUniform1f(glGetUniformLocation(shader->Program, "linearLight.linear"), 0.09);
+	glUniform1f(glGetUniformLocation(shader->Program, "linearLight.quadratic"), 0.032);
 
 	GLfloat camX = 0.0f;
 	GLfloat camZ = 3.0f;
@@ -245,7 +249,7 @@ void draw(int x, int y, int width, int height,Shader *shader, float *color) {
 		model = glm::translate(model, cubePositions[i]);
 		GLfloat angle = (i + 1.0) * glfwGetTime()/10.0f;
 
-		model = glm::rotate(model, angle, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, angle, glm::vec3(1.0f, 0.3f, 0.5f));
 		GLuint modelLoc = glGetUniformLocation(shader->Program, "model");
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
