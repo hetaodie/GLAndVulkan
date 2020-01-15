@@ -85,6 +85,7 @@ Camera  camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
 void createTexture() {
 
+
 	int width, height;
 	unsigned char* image = SOIL_load_image("container2.png", &width, &height, 0, SOIL_LOAD_RGB);
 

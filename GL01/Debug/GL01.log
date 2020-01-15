@@ -1,5 +1,4 @@
-﻿  Model.cpp
-LINK : warning LNK4098: 默认库“MSVCRT”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
+﻿LINK : warning LNK4098: 默认库“MSVCRT”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
 LINK : warning LNK4098: 默认库“LIBCMT”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
 LINK : warning LNK4286: 符号“___glewActiveTexture”(在“glew32s.lib(glew.obj)”中定义)已由“Mesh.obj”导入
 LINK : warning LNK4286: 符号“___glewBindBuffer”(在“glew32s.lib(glew.obj)”中定义)已由“Mesh.obj”导入
@@ -24,5 +23,7 @@ LINK : warning LNK4286: 符号“___glewGetShaderiv”(在“glew32s.lib(glew.ob
 LINK : warning LNK4286: 符号“___glewLinkProgram”(在“glew32s.lib(glew.obj)”中定义)已由“Shader.obj”导入
 LINK : warning LNK4286: 符号“___glewShaderSource”(在“glew32s.lib(glew.obj)”中定义)已由“Shader.obj”导入
 LINK : warning LNK4286: 符号“___glewUseProgram”(在“glew32s.lib(glew.obj)”中定义)已由“Shader.obj”导入
+Model.obj : warning LNK4205: “D:\opengl\GLAndVulkan\GL01\Debug\vc142.pdb”缺少引用模块的当前调试信息；正在链接对象，如同没有调试信息一样
+Mesh.obj : warning LNK4205: “D:\opengl\GLAndVulkan\GL01\Debug\vc142.pdb”缺少引用模块的当前调试信息；正在链接对象，如同没有调试信息一样
 glew32s.lib(glew.obj) : warning LNK4099: 未找到 PDB“vc120.pdb”(使用“glew32s.lib(glew.obj)”或在“D:\opengl\GLAndVulkan\GL01\Debug\vc120.pdb”中寻找)；正在链接对象，如同没有调试信息一样
   GL01.vcxproj -> D:\opengl\GLAndVulkan\GL01\Debug\GL01.exe
